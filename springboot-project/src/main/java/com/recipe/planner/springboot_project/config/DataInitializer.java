@@ -18,13 +18,13 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Sample Recipes
+        
         Recipe pasta = new Recipe(null, "Pasta", List.of("Noodles", "Tomato Sauce"), "Boil noodles, mix with sauce.");
         Recipe salad = new Recipe(null, "Greek Salad", List.of("Cucumber", "Tomato", "Feta Cheese"), "Mix all ingredients.");
 
         recipeRepository.saveAll(List.of(pasta, salad));
 
-        // Sample Pantry Items
+        
         PantryItem flour = new PantryItem(null, "Flour", 5);
         PantryItem oliveOil = new PantryItem(null, "Olive Oil", 2);
 
