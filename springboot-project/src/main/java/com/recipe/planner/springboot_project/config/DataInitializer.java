@@ -21,14 +21,20 @@ public class DataInitializer implements CommandLineRunner {
         
         Recipe pasta = new Recipe(null, "Pasta", List.of("Noodles", "Tomato Sauce"), "Boil noodles, mix with sauce.");
         Recipe salad = new Recipe(null, "Greek Salad", List.of("Cucumber", "Tomato", "Feta Cheese"), "Mix all ingredients.");
+        Recipe omelette = new Recipe(null, "Cheese Omelette", List.of("Eggs", "Cheese", "Butter"), "Whisk eggs, cook with butter, add cheese.");
+        Recipe smoothie = new Recipe(null, "Berry Smoothie", List.of("Milk", "Banana", "Blueberries"), "Blend everything until smooth.");
 
-        recipeRepository.saveAll(List.of(pasta, salad));
+
+        recipeRepository.saveAll(List.of(pasta, salad, omelette, smoothie));
 
         
         PantryItem flour = new PantryItem(null, "Flour", 5);
         PantryItem oliveOil = new PantryItem(null, "Olive Oil", 2);
+        PantryItem eggs = new PantryItem(null, "Eggs", 12);
+        PantryItem milk = new PantryItem(null, "Milk", 1);
 
-        pantryItemRepository.saveAll(List.of(flour, oliveOil));
+
+        pantryItemRepository.saveAll(List.of(flour, oliveOil, eggs, milk));
 
         System.out.println("✅ Sample data initialized successfully!");
     }
