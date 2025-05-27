@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-/**
- * Interceptor that validates the API key in request headers.
- * Applies to all protected endpoints (GET, POST, PUT, DELETE).
- */
+
 @Component
 public class ApiKeyInterceptor implements HandlerInterceptor {
 
@@ -31,10 +28,10 @@ public class ApiKeyInterceptor implements HandlerInterceptor {
         String method = request.getMethod();
         String path = request.getRequestURI();
 
-        // Get API key from request header
+      
         String apiKey = request.getHeader(API_KEY_HEADER);
 
-        // Validate API key
+        
         if (apiKey == null || !apiKey.equals(apiKeyProperties.getApiKey())) {
             logger.warn("Unauthorized request: {} {} - Invalid/Missing API key", method, path);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -42,7 +39,7 @@ public class ApiKeyInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // Log successful authentication
+      
         logger.debug("API key authentication passed for: {} {}", method, path);
         return true;
     }
