@@ -1,0 +1,49 @@
+package com.recipe.planner.springboot_project.config;
+
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+/**
+ * Interceptor that validates the API key in request headers.
+ * Applies to all protected endpoints (GET, POST, PUT, DELETE).
+ */
+@Component
+public class ApiKeyInterceptor implements HandlerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApiKeyInterceptor.class);
+    private static final String API_KEY_HEADER = "X-API-KEY";
+
+    private final ApiKeyProperties apiKeyProperties;
+
+    public ApiKeyInterceptor(ApiKeyProperties apiKeyProperties) {
+        this.apiKeyProperties = apiKeyProperties;
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String method = request.getMethod();
+        String path = request.getRequestURI();
+
+        // Get API key from request header
+        String apiKey = request.getHeader(API_KEY_HEADER);
+
+        // Validate API key
+        if (apiKey == null || !apiKey.equals(apiKeyProperties.getApiKey())) {
+            logger.warn("Unauthorized request: {} {} - Invalid/Missing API key", method, path);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("Invalid or missing API key");
+            return false;
+        }
+
+        // Log successful authentication
+        logger.debug("API key authentication passed for: {} {}", method, path);
+        return true;
+    }
+}
